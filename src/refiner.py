@@ -14,7 +14,23 @@ Text: {} '''
 
 openai_api_key = os.environ.get('OPENAI_API_KEY')
 
-st.set_page_config(layout="centered", page_title="text refiner", initial_sidebar_state="expanded")
+st.set_page_config(layout="wide", page_title="Text Refiner", initial_sidebar_state="expanded")
+
+# CSS to set a custom width for the main content and reduce padding at the top
+st.markdown(
+    """
+    <style>
+    .main {
+        max-width: 1200px;  /* Adjust this value for desired width */
+        margin: auto;  /* Centers the content */
+    }
+    .css-18e3th9 {  /* Adjust top padding to bring content closer to the top */
+        padding-top: 1rem;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 st.markdown("## Text Refiner")
 
@@ -68,7 +84,8 @@ def create_diff_html(before_text, after_text):
 with st.form('my_form'):
     open_ai_model = st.selectbox('Which OpenAI model should we use?', ('gpt-4o-mini', 'gpt-4o'))
     # Change to st.text_area for larger input size, allowing paragraphs
-    text = st.text_area("Input Text", value="sounds like a plan, take it directly with yosef on Sun so he can allocate time properly?", height=150)
+    text = st.text_area("Input Text", value="sounds like a plan, take it directly with yosef on Sun so he can allocate time properly?",
+                        height=120)
 
     with st.expander("Prompt (Click to edit)", expanded=False):
         prompt = st.text_area('Edit Prompt:', value=PROMPT, height=120)
