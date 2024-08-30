@@ -1,9 +1,7 @@
 
-# Streamlit LLM templates
+# Text refiner
 
-A small library of examples for getting started with streamlit, LLM and langchain.
-
-Fork and get started.
+Refines your text, while preserving your style.
 
 # Example
 
@@ -18,19 +16,19 @@ Fork and get started.
 Clone the project
 
 ```bash
-  git clone https://github.com/ofirsharony/streamlit-llm-templates.git
+  git clone https://github.com/ofirsharony/refiner.git
 ```
 
 Go to the project directory, to the desired template, e.g
 
 ```bash
-  cd streamlit-llm-templates/single-question-llm
+  cd refiner/src
 ```
 
 Install dependencies, by either 'pip install -r requirements.txt' or directly via
 
 ```bash
-  pip install openai langchain streamlit
+  pip install openai langchain streamlit diff-match-patch
 ```
 
 Make sure your OpenAI key is defined as environment var 
@@ -41,14 +39,12 @@ Make sure your OpenAI key is defined as environment var
 Run it!
 
 ```bash
-  streamlit run single-question-llm.py
+  streamlit run app.py
 ```
 
 ## Contributing
 
 Contributions are always welcome!
-
-Feel free to add your own templates.
 
 ## License
 
