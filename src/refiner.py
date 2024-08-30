@@ -3,21 +3,20 @@ import streamlit as st
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import SystemMessage
 from streamlit.components.v1 import html  # For rendering custom HTML
-import difflib  # Importing difflib for text comparison
 from diff_match_patch import diff_match_patch
 
 # Store your OpenAI key in env var OPENAI_API_KEY
 # pip install openai langchain streamlit
 # streamlit run refiner.py
 
-PROMPT = '''Slightly improve the following text while preserving my writing style. Fix grammar mistakes, keep my writing clean and make my intent clear. When I see the result, I want to quickly identify it as my own writing, with a few necessary fixes.
----
+PROMPT = '''Refine the following text without altering my writing style. Correct grammar mistakes and keep the writing concise and clear. I should immediately recognize it as my own work, but with essential improvements.
 Text: {} '''
 
 openai_api_key = os.environ.get('OPENAI_API_KEY')
-st.set_page_config(layout="centered", page_title="LLM stories generator")
-st.markdown("## Refiner")
-st.markdown("### Your Work Refiner")
+
+st.set_page_config(layout="centered", page_title="text refiner", initial_sidebar_state="expanded")
+
+st.markdown("## Text Refiner")
 
 def generate_response(input_text, model_name):
     chat = ChatOpenAI(temperature=0.3, openai_api_key=openai_api_key, model_name=model_name)
@@ -69,8 +68,10 @@ def create_diff_html(before_text, after_text):
 with st.form('my_form'):
     open_ai_model = st.selectbox('Which OpenAI model should we use?', ('gpt-4o-mini', 'gpt-4o'))
     # Change to st.text_area for larger input size, allowing paragraphs
-    text = st.text_area("Input Text", value="Consider this approach: ", height=150)
-    prompt = st.text_area('Prompt:', value=PROMPT, height=220)
+    text = st.text_area("Input Text", value="sounds like a plan, take it directly with yosef on Sun so he can allocate time properly?", height=150)
+
+    with st.expander("Prompt (Click to edit)", expanded=False):
+        prompt = st.text_area('Edit Prompt:', value=PROMPT, height=120)
     submitted = st.form_submit_button('Generate')
 
     if submitted:
@@ -82,5 +83,5 @@ with st.form('my_form'):
             diff_html = create_diff_html(text, after_text)
 
             # Display the diff table in Streamlit using HTML
-            st.markdown("### Before and After Comparison:")
+            st.markdown("#### Before and After Comparison:")
             html(diff_html, height=500, scrolling=True)
