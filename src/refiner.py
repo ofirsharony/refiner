@@ -74,7 +74,12 @@ def create_diff_html(before_text, after_text):
             <div>{left_html}</div>
         </div>
         <div style='font-family: Arial, sans-serif; padding: 10px; border: 1px solid #ddd;'>
-            <h4 style='background-color: #f0f0f0; padding: 10px;'>After</h4>
+            <h4 style='background-color: #f0f0f0; padding: 10px; display: flex; align-items: center; justify-content: space-between;'>
+                After
+                <button onclick="navigator.clipboard.writeText(`{after_text}`)" style="padding: 4px 8px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">
+                    Copy to Clipboard
+                </button>
+            </h4>
             <div>{right_html}</div>
         </div>
     </div>
