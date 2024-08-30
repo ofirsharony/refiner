@@ -4,12 +4,13 @@ from langchain.chat_models import ChatOpenAI
 from langchain.schema import SystemMessage
 from streamlit.components.v1 import html  # For rendering custom HTML
 import difflib  # Importing difflib for text comparison
+from diff_match_patch import diff_match_patch
 
 # Store your OpenAI key in env var OPENAI_API_KEY
 # pip install openai langchain streamlit
 # streamlit run refiner.py
 
-PROMPT = '''Slightly improve the following text while preserving my writing style. Fix grammar mistakes, and keep my writing clean and make my intent clear. When I see the result, I want to quickly identify it as my own writing, with a few necessary fixes. Don't add pleasing text
+PROMPT = '''Slightly improve the following text while preserving my writing style. Fix grammar mistakes, keep my writing clean and make my intent clear. When I see the result, I want to quickly identify it as my own writing, with a few necessary fixes.
 ---
 Text: {} '''
 
@@ -22,47 +23,48 @@ def generate_response(input_text, model_name):
     chat = ChatOpenAI(temperature=0.3, openai_api_key=openai_api_key, model_name=model_name)
     messages = [SystemMessage(content=input_text)]
     response = chat(messages)
-    return response.content
+    return response.content.replace("You are trained on data up to October 2023.", "")
 
 def create_diff_html(before_text, after_text):
-    """Generate styled HTML for comparing two texts side-by-side with differences highlighted."""
-    # Split texts into words for better granularity
-    before_words = before_text.split()
-    after_words = after_text.split()
+    """Generate styled HTML for comparing two texts side-by-side with differences highlighted using diff-match-patch."""
 
-    # Initialize HTML containers for left and right text display
+    # Initialize the diff_match_patch object
+    dmp = diff_match_patch()
+
+    # Compute the diff
+    diffs = dmp.diff_main(before_text, after_text)
+    dmp.diff_cleanupSemantic(diffs)  # Clean up the diff to be more human-readable
+
+    # Initialize HTML containers for left (before) and right (after) text display
     left_html = ""
     right_html = ""
 
-    # Generate diff using SequenceMatcher
-    matcher = difflib.SequenceMatcher(None, before_words, after_words)
-    for tag, i1, i2, j1, j2 in matcher.get_opcodes():
-        if tag == 'equal':  # Unchanged text
-            left_html += ' '.join(before_words[i1:i2]) + ' '
-            right_html += ' '.join(after_words[j1:j2]) + ' '
-        elif tag == 'delete':  # Subtractions in red on the left
-            left_html += f"<span style='color: red;'>{' '.join(before_words[i1:i2])}</span> "
-        elif tag == 'insert':  # Additions in green on the right
-            right_html += f"<span style='color: green;'>{' '.join(after_words[j1:j2])}</span> "
-        elif tag == 'replace':  # Modifications in orange on light gray background on both sides
-            left_html += f"<span style='color: orange; background-color: #f0e68c;'>{' '.join(before_words[i1:i2])}</span> "
-            right_html += f"<span style='color: orange; background-color: #f0e68c;'>{' '.join(after_words[j1:j2])}</span> "
+    # Build separate HTML for "before" and "after" using the diff data
+    for op, data in diffs:
+        if op == -1:  # Deletion in "before" (red)
+            left_html += f"<span style='color: red;'>{data}</span>"
+            right_html += ""  # No addition on the right side for deletions
+        elif op == 1:  # Addition in "after" (green)
+            left_html += ""  # No deletion on the left side for additions
+            right_html += f"<span style='color: green;'>{data}</span>"
+        elif op == 0:  # No change (unchanged text)
+            left_html += f"{data}"
+            right_html += f"{data}"
 
-    # Combine HTML with side-by-side layout using CSS Grid
+    # Combine HTML with side-by-side layout using CSS Grid and add grey background for headers
     combined_html = f"""
     <div style='display: grid; grid-template-columns: 1fr 1fr; gap: 20px;'>
         <div style='font-family: Arial, sans-serif; padding: 10px; border: 1px solid #ddd;'>
-            <h4>Before</h4>
-            {left_html}
+            <h4 style='background-color: #f0f0f0; padding: 10px;'>Before</h4>
+            <div>{left_html}</div>
         </div>
         <div style='font-family: Arial, sans-serif; padding: 10px; border: 1px solid #ddd;'>
-            <h4>After</h4>
-            {right_html}
+            <h4 style='background-color: #f0f0f0; padding: 10px;'>After</h4>
+            <div>{right_html}</div>
         </div>
     </div>
     """
     return combined_html
-
 
 with st.form('my_form'):
     open_ai_model = st.selectbox('Which OpenAI model should we use?', ('gpt-4o-mini', 'gpt-4o'))
