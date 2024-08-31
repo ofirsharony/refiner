@@ -7,10 +7,10 @@ Refines your text, while preserving your style.
 
 ![Alt text](./resources/llm_stories_generator.png?raw=true "single question template")
 
-## Templates
+## Running modes
 
-* Single question template - with an example of an LLM story generator.
-* Chat with vector DB template - coming soon.
+* Replace your text in place
+* Open the text in full diff mode to observe changes
 ## Run Locally
 
 Clone the project

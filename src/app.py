@@ -44,6 +44,6 @@ with st.form('my_form'):
             # Generate the styled diff HTML
             diff_html = create_diff_html(text, after_text)
 
-            # Display the diff table in Streamlit using HTML
+            # Display the diff table
             st.markdown("#### Before and After Comparison:")
             html(diff_html, height=500, scrolling=True)  # This line works now
