@@ -10,14 +10,13 @@ selected_text="$1"
 # Encode the selected text for URL
 encoded_text=$(python3 -c "import urllib.parse; print(urllib.parse.quote('''$selected_text'''))")
 
-# call curl
+# Invoke the API
 response=$(curl -s "http://localhost:8000/generate_get?text=${encoded_text}&model=gpt-4o-mini")
 
-# Use sed to remove the leading and trailing quotes
+# Remove leading and trailing quotes
 cleaned_response=$(echo $response | sed 's/^"//; s/"$//')
 
-# Replace \n with actual newlines using printf
+# Replace \n with actual newlines
 final_response=$(echo -e "$cleaned_response")
 
-# Output the final cleaned response to be used as the next input
 echo "$final_response"

@@ -1,6 +1,7 @@
 import streamlit as st
 from streamlit.components.v1 import html  # Import the HTML function
-from refiner import generate_llm_response, create_diff_html, PROMPT  # Import business logic functions
+from refiner import refine, PROMPT  # Import business logic functions
+from diff_formatter import create_html_diff
 
 def set_page_config():
     st.set_page_config(layout="wide", page_title="Text Refiner", initial_sidebar_state="expanded")
@@ -29,7 +30,7 @@ with st.form('my_form'):
 
     query_params = st.experimental_get_query_params()
     auto_generate = query_params.get("auto_generate", ["false"])[0].lower() == "true"
-    text = st.text_area("Input Text", value=query_params.get("text", ["sounds like a plan, take it directly with yosef on Sun so he can allocate time properly?"])[0], height=120)
+    text = st.text_area("Input Text", value=query_params.get("text", ["sounds like a plan, take it directly with john on Mon so he can allocate time properly?"])[0], height=120)
 
     with st.expander("Prompt (Click to edit)", expanded=False):
         prompt = st.text_area('Edit Prompt:', value=PROMPT, height=120)
@@ -37,13 +38,10 @@ with st.form('my_form'):
     submitted = st.form_submit_button('Generate')
 
     if submitted or auto_generate:
-        with st.spinner('Generating LLM response...'):
+        with st.spinner('Refining your writing...'):
 
-            after_text = generate_llm_response(prompt.format(text), open_ai_model)
+            after_text = refine(prompt.format(text), open_ai_model)
 
-            # Generate the styled diff HTML
-            diff_html = create_diff_html(text, after_text)
-
-            # Display the diff table
+            # Render a styled HTML diff
             st.markdown("#### Before and After Comparison:")
-            html(diff_html, height=500, scrolling=True)  # This line works now
+            html(create_html_diff(text, after_text), height=500, scrolling=True)  # This line works now
