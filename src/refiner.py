@@ -1,9 +1,17 @@
 import os
+import json
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import SystemMessage
 from diff_match_patch import diff_match_patch
 
 openai_api_key = os.environ.get('OPENAI_API_KEY')
+
+# Load configuration from JSON file
+with open("config.json", "r") as config_file:
+    config = json.load(config_file)
+
+# Extract prompt from the configuration
+PROMPT = config["prompt"]
 
 def generate_llm_response(input_text, model_name):
     """Generate refined text response using ChatOpenAI."""
