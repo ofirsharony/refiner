@@ -2,6 +2,9 @@
 # Text refiner
 
 Refines your text, while preserving your style.
+
+Select text in any app, and refine it in place or review suggested changes with a click of a button.
+
 Combines LLM with Automator - select text you've written in any app and make grammar adjustments in place, or open full diff app to review changes.
 The app supports both interactive use (via Streamlit UI) and API requests (via FastAPI), and combines them with Automator.
 
@@ -88,9 +91,9 @@ This will start the API server on `http://localhost:8000`. Use the `/generate_ge
 curl -s "http://localhost:8000/generate_get?text=Your_custom_input_text&model=gpt-4o-mini"
 ```
 
-### 3. Define automator scripts
+### 3. Set shortcuts to run by selecting input text from any app
 
-In order to create Automator actions that activates both API mode and APP mode via shortcuts, see 'Automations' folder
+In order to create Automator actions that activates both API mode and APP mode via shortcuts, see [Automations](https://github.com/ofirsharony/refiner/tree/main/src/Automations) folder
 
 ## License
 
