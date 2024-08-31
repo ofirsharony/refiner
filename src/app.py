@@ -28,6 +28,7 @@ with st.form('my_form'):
     open_ai_model = st.selectbox('Which OpenAI model should we use?', ('gpt-4o-mini', 'gpt-4o'))
 
     query_params = st.experimental_get_query_params()
+    auto_generate = query_params.get("auto_generate", ["false"])[0].lower() == "true"
     text = st.text_area("Input Text", value=query_params.get("text", ["sounds like a plan, take it directly with yosef on Sun so he can allocate time properly?"])[0], height=120)
 
     with st.expander("Prompt (Click to edit)", expanded=False):
@@ -35,7 +36,7 @@ with st.form('my_form'):
 
     submitted = st.form_submit_button('Generate')
 
-    if submitted:
+    if submitted or auto_generate:
         with st.spinner('Generating LLM response...'):
 
             after_text = generate_llm_response(prompt.format(text), open_ai_model)
