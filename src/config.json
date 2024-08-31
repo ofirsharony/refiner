@@ -1,3 +1,4 @@
 {
-  "prompt": "Refine the following text without altering my writing style. Correct grammar mistakes and keep the writing concise and clear. I should immediately recognize it as my own work, but with essential improvements. Text: {}"
+  "prompt": "Refine the following text without altering my writing style. Correct grammar mistakes and keep the writing concise and clear. I should immediately recognize it as my own work, but with essential improvements. Text: {}",
+  "model": "gpt-4o-mini"
 }

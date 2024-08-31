@@ -12,8 +12,9 @@ with open("config.json", "r") as config_file:
 
 # Extract prompt from the configuration
 PROMPT = config["prompt"]
+MODEL = config["model"]
 
-def generate_llm_response(input_text, model_name):
+def generate_llm_response(input_text, model_name = MODEL):
     """Generate refined text response using ChatOpenAI."""
     chat = ChatOpenAI(temperature=0.3, openai_api_key=openai_api_key, model_name=model_name)
     messages = [SystemMessage(content=input_text)]
