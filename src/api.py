@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from refiner import refine, PROMPT
 
-# activate by running
-# uvicorn api:app --host 0.0.0.0 --port 8000 --reload
+# Run the below to start an event loop that handles incoming HTTP requests asynchronously, where 'api' is the python file and 'app' is the FastAPI instance that will handle requests
+# uvicorn api:app --host 0.0.0.0 --port 8000 --reload &
 
 app = FastAPI()
 
