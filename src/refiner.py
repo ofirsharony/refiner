@@ -1,8 +1,6 @@
 import os
 import json
-from langchain.chat_models import ChatOpenAI
-from langchain.schema import SystemMessage
-
+from langchain_openai import ChatOpenAI
 openai_api_key = os.environ.get('OPENAI_API_KEY')
 
 # Load configuration from JSON file
@@ -15,10 +13,10 @@ MODEL = config["model"]
 
 def refine(input_text, model_name = MODEL):
     """Generate refined text response using ChatOpenAI."""
-    chat = ChatOpenAI(temperature=0.3, openai_api_key=openai_api_key, model_name=model_name)
-    messages = [SystemMessage(content=input_text)]
-    response = chat(messages)
+    llm = ChatOpenAI(temperature=0.3, openai_api_key=openai_api_key, model_name=model_name)
 
-    # looks like a bug, probably a newer API version will resolve it. TODO fix this
-    return response.content.replace("You are trained on data up to October 2023.", "")
-
+    messages = [
+        ( "system", input_text)
+        # , ("human", "some prompt")
+    ]
+    return llm.invoke(messages).content

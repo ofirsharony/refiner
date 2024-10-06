@@ -1,5 +1,5 @@
 openai
-langchain
+langchain_openai
 streamlit
 diff-match-patch
 fastapi
