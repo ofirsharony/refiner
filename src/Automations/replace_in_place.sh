@@ -11,7 +11,7 @@ selected_text="$1"
 encoded_text=$(python3 -c "import urllib.parse; print(urllib.parse.quote('''$selected_text'''))")
 
 # Invoke the API
-response=$(curl --max-time 4 -s "http://localhost:8000/generate_get?text=${encoded_text}&model=gpt-4o-mini")
+response=$(curl --max-time 4 -s "http://localhost:8001/generate_get?text=${encoded_text}&model=gpt-4o-mini")
 
 # Remove leading and trailing quotes
 cleaned_response=$(echo $response | sed 's/^"//; s/"$//')

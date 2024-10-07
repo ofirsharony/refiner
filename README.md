@@ -79,10 +79,10 @@ This will open the app in your default web browser where you can input text and 
 Run the FastAPI server using `uvicorn`:
 
 ```bash
-uvicorn api:app --host 0.0.0.0 --port 8000
+uvicorn api:app --host 0.0.0.0 --port 8001
 ```
 
-This will start the API server on `http://localhost:8000`. Use the `/generate_get` endpoint to refine text via API.
+This will start the API server on `http://localhost:8001`. Use the `/generate_get` endpoint to refine text via API.
 
 
 ### Example `curl` Request:
