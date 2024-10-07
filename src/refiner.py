@@ -19,4 +19,4 @@ def refine(input_text, model_name = MODEL):
         ( "system", input_text)
         # , ("human", "some prompt")
     ]
-    return llm.invoke(messages).content
+    return llm.invoke(messages).content.replace("You are trained on data up to October 2023.", "")

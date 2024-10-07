@@ -12,4 +12,4 @@ selected_text="$1"
 encoded_text=$(python3 -c "import urllib.parse; print(urllib.parse.quote('''$selected_text'''))")
 
 # Open the URL in the default browser with the selected text as a parameter
-open "http://localhost:8501/?auto_generate=true&text=${encoded_text}"
+open "http://localhost:8504/?auto_generate=true&text=${encoded_text}"
