@@ -1,2 +1,9 @@
 /.idea/
 .DS_Store
+src/uvicorn.log
+src/streamlit.log
+src/.idea/misc.xml
+src/.idea/modules.xml
+src/.idea/src.iml
+src/.idea/vcs.xml
+src/nohup.out

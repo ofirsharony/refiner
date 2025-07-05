@@ -1,4 +1,5 @@
 import streamlit as st
+import time  # Add time import for measuring execution time
 from streamlit.components.v1 import html  # Import the HTML function
 from refiner import refine, PROMPT  # Import business logic functions
 from diff_formatter import create_html_diff
@@ -26,7 +27,7 @@ set_page_config()
 st.markdown("## Text Refiner")
 
 with st.form('my_form'):
-    open_ai_model = st.selectbox('Which OpenAI model should we use?', ('gpt-4o-mini', 'gpt-4o'))
+    open_ai_model = st.selectbox('Which OpenAI model should we use?', ('gpt-4o-mini', 'gpt-4o', 'gpt-4.1-nano'))
     auto_generate = st.query_params.get("auto_generate", "false").lower() == "true"
     text = st.text_area("Input Text", value=st.query_params.get("text", "sounds like a plan, take it directly with john on Mon so he can allocate time properly?"), height=120)
 
@@ -37,9 +38,18 @@ with st.form('my_form'):
 
     if submitted or auto_generate:
         with st.spinner('Refining your writing...'):
-
+            # Start timing
+            start_time = time.time()
+            
             after_text = refine(prompt.format(text), open_ai_model)
+            
+            # End timing and calculate duration
+            end_time = time.time()
+            execution_time = end_time - start_time
 
-            # Render a styled HTML diff
-            st.markdown("#### Before and After Comparison:")
-            html(create_html_diff(text, after_text), height=500, scrolling=True)
+        # Display execution time
+        st.success(f"✅ Text refined successfully in {execution_time:.2f} seconds")
+
+        # Render a styled HTML diff
+        st.markdown("#### Before and After Comparison:")
+        html(create_html_diff(text, after_text), height=500, scrolling=True)

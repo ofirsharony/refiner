@@ -9,7 +9,7 @@ app = FastAPI()
 
 class GenerateRequest(BaseModel):
     text: str
-    model: str = "gpt-4o-mini"  # Default model
+    model: str = "gpt-4.1-nano"  # Default model
     prompt: str = PROMPT
 
 # run with curl -s -X POST "http://localhost:8001/generate_post" -H "Content-Type: application/json" -d '{"text": "my custom input text", "model": "gpt-4o-mini"}'
@@ -19,5 +19,5 @@ def generate_text(request: GenerateRequest):
 
 # run with curl -s "http://localhost:8001/generate_get?text=${encoded_text}&model=gpt-4o-mini"
 @app.get("/generate_get")
-def generate_text(text: str, model: str = "gpt-4o-mini", prompt: str = PROMPT):
+def generate_text(text: str, model: str = "gpt-4.1-nano", prompt: str = PROMPT):
     return refine(prompt.format(text), model)
