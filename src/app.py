@@ -27,7 +27,7 @@ set_page_config()
 st.markdown("## Text Refiner")
 
 with st.form('my_form'):
-    open_ai_model = st.selectbox('Which OpenAI model should we use?', ('gpt-4o-mini', 'gpt-4o', 'gpt-4.1-nano'))
+    model = st.selectbox('Which OpenAI model should we use?', ('openai/gpt-4o-mini', 'openai/gpt-4o', 'openai/gpt-4.1-nano'))
     auto_generate = st.query_params.get("auto_generate", "false").lower() == "true"
     text = st.text_area("Input Text", value=st.query_params.get("text", "sounds like a plan, take it directly with john on Mon so he can allocate time properly?"), height=120)
 
@@ -41,14 +41,14 @@ with st.form('my_form'):
             # Start timing
             start_time = time.time()
             
-            after_text = refine(prompt.format(text), open_ai_model)
+            after_text = refine(prompt.format(text), model)
             
             # End timing and calculate duration
             end_time = time.time()
             execution_time = end_time - start_time
 
         # Display execution time
-        st.success(f"✅ Text refined successfully in {execution_time:.2f} seconds")
+        st.success(f"✅ Text refined successfully with model {model} in {execution_time:.2f} seconds")
 
         # Render a styled HTML diff
         st.markdown("#### Before and After Comparison:")

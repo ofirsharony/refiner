@@ -12,12 +12,12 @@ class GenerateRequest(BaseModel):
     model: str = "gpt-4.1-nano"  # Default model
     prompt: str = PROMPT
 
-# run with curl -s -X POST "http://localhost:8001/generate_post" -H "Content-Type: application/json" -d '{"text": "my custom input text", "model": "gpt-4o-mini"}'
+# run with curl -s -X POST "http://localhost:8001/generate_post" -H "Content-Type: application/json" -d '{"text": "my custom input text", "model": "openai/gpt-4o-mini"}'
 @app.post("/generate_post")
 def generate_text(request: GenerateRequest):
     return refine(request.prompt.format(request.text), request.model)
 
-# run with curl -s "http://localhost:8001/generate_get?text=${encoded_text}&model=gpt-4o-mini"
+# run with curl -s "http://localhost:8001/generate_get?text=${encoded_text}&model=openai/gpt-4o-mini"
 @app.get("/generate_get")
-def generate_text(text: str, model: str = "gpt-4.1-nano", prompt: str = PROMPT):
+def generate_text(text: str, model: str = "openai/gpt-4.1-nano", prompt: str = PROMPT):
     return refine(prompt.format(text), model)

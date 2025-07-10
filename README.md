@@ -57,7 +57,7 @@ The prompt for text refinement is stored in `config.json`. You can modify this f
    ```json
    {
      "prompt" : "Refine the following text without altering my writing style. Correct grammar mistakes and keep the writing concise and clear. I should immediately recognize it as my own work, but with essential improvements. Text: {}",
-     "model": "gpt-4o-mini"
+     "model": "openai/gpt-4o-mini"
    }
    ```
 
@@ -88,7 +88,7 @@ This will start the API server on `http://localhost:8001`. Use the `/generate_ge
 ### Example `curl` Request:
 
 ```bash
-curl -s "http://localhost:8000/generate_get?text=Your_custom_input_text&model=gpt-4o-mini"
+curl -s "http://localhost:8000/generate_get?text=Your_custom_input_text&model=openai/gpt-4o-mini"
 ```
 
 ### 3. Set shortcuts to run by selecting input text from any app
