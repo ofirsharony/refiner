@@ -4,7 +4,7 @@ from openai import OpenAI
 
 # To authenticate with the model you will need to generate a fined grained personal access token (PAT) in your GitHub settings, with "models read" permission
 # Create your PAT token by following instructions here: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
-github_token = os.environ.get('GITHUB_TOKEN')
+github_token = os.environ.get('GITHUB_TOKEN_PERSONAL')
 
 # Load configuration from JSON file
 with open("config.json", "r") as config_file:
@@ -38,4 +38,4 @@ def refine(input_text, model_name = MODEL):
     
     response_content = response.choices[0].message.content
     print ("Response: ", response_content)
-    return response_content.replace(" You are trained on data up to October 2023.", "")
+    return response_content.replace("You are trained on data up to October 2023.", "")
