@@ -27,7 +27,7 @@ set_page_config()
 st.markdown("## Text Refiner")
 
 with st.form('my_form'):
-    model = st.selectbox('Which OpenAI model should we use?', ('openai/gpt-4.1-nano', 'openai/gpt-4o-mini', 'openai/gpt-4o'))
+    model = st.selectbox('Which OpenAI model should we use?', ('openai/gpt-4.1-nano','openai/gpt-5-nano', 'openai/gpt-4o-mini', 'openai/gpt-4o'))
     auto_generate = st.query_params.get("auto_generate", "false").lower() == "true"
     text = st.text_area("Input Text", value=st.query_params.get("text", "sounds like a plan, take it directly with john on Mon so he can allocate time properly?"), height=120)
 

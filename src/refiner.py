@@ -31,8 +31,8 @@ def refine(input_text, model_name = MODEL):
             }
         ],
         model=model_name,
-        temperature=0.3,
-        max_tokens=4096,
+        temperature=0.5,
+        max_completion_tokens=4096,
         top_p=1
     )
     
