@@ -48,7 +48,7 @@ The app calls the OpenAI API. Export your key:
 ```
 To use another OpenAI-compatible provider (Ollama, Groq, Gemini, a company gateway), change `base_url` and `api_key_env` in `config.json`.
 
-Behind a TLS-inspecting proxy (Zscaler), set `SSL_CERT_FILE` to the proxy's CA bundle.
+Behind a TLS-inspecting proxy, set `SSL_CERT_FILE` to the proxy's CA bundle.
 
 ## Configuration
 

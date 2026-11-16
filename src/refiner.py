@@ -56,7 +56,7 @@ def get_client():
 
 
 def ssl_context():
-    """Verify certs as usual, but without Python 3.13's strict X.509 mode: corporate proxy CAs (Zscaler) fail it."""
+    """Verify certs as usual, but without Python 3.13's strict X.509 mode: some TLS-inspecting proxy CAs fail it."""
     context = ssl.create_default_context(cafile=os.environ.get("SSL_CERT_FILE"))
     context.verify_flags &= ~ssl.VERIFY_X509_STRICT
     return context
