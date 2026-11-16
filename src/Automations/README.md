@@ -22,6 +22,10 @@ Quickly send selected text to the backend API for refinement and retrieve the im
 
 3. **Add the Shell Script**:
    - Copy and paste the shell scripts provided in this directory into the **Run Shell Script** action:
+   - Set **Shell** to `/bin/bash` and **Pass input** to `as arguments`.
+   - `replace_in_place.sh`: check **"Output replaces selected text"**.
+   - `review_diff.sh`: leave **"Output replaces selected text"** unchecked. The script prints nothing, so the selection would be deleted.
+   - Some apps, such as Sublime Text, do not pass the selection to Services. Test in TextEdit first.
 
 4. **Assign a Keyboard Shortcut**:
    - Open **System Settings** > **Keyboard** > **Keyboard Shortcuts** > **Services**.
