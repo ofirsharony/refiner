@@ -10,3 +10,6 @@ src/nohup.out
 src/__pycache__/api.cpython-311.pyc
 src/__pycache__/diff_formatter.cpython-311.pyc
 src/__pycache__/refiner.cpython-311.pyc
+src/.venv/
+__pycache__/
+.pytest_cache/

@@ -1,7 +1,7 @@
 import streamlit as st
 import time  # Add time import for measuring execution time
 from streamlit.components.v1 import html  # Import the HTML function
-from refiner import refine, PROMPT  # Import business logic functions
+from refiner import refine, PROMPT, MODEL, MODELS
 from diff_formatter import create_html_diff
 
 def set_page_config():
@@ -27,7 +27,7 @@ set_page_config()
 st.markdown("## Text Refiner")
 
 with st.form('my_form'):
-    model = st.selectbox('Which OpenAI model should we use?', ('openai/gpt-4.1-nano','openai/gpt-5-nano', 'openai/gpt-4o-mini', 'openai/gpt-4o'))
+    model = st.selectbox('Which model should we use?', MODELS, index=MODELS.index(MODEL) if MODEL in MODELS else 0)
     auto_generate = st.query_params.get("auto_generate", "false").lower() == "true"
     text = st.text_area("Input Text", value=st.query_params.get("text", "sounds like a plan, take it directly with john on Mon so he can allocate time properly?"), height=120)
 

@@ -1,23 +1,26 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from refiner import refine, PROMPT
+from refiner import refine, PROMPT, MODEL
 
-# Run the below to start an event loop that handles incoming HTTP requests asynchronously, where 'api' is the python file and 'app' is the FastAPI instance that will handle requests
-# uvicorn api:app --host 0.0.0.0 --port 8001 --reload &
+# Start with: uvicorn api:app --host 0.0.0.0 --port 8005 --reload &
+# Port 8005 matches Automations/replace_in_place.sh.
 
 app = FastAPI()
 
+
 class GenerateRequest(BaseModel):
     text: str
-    model: str = "gpt-4.1-nano"  # Default model
+    model: str = MODEL
     prompt: str = PROMPT
 
-# run with curl -s -X POST "http://localhost:8001/generate_post" -H "Content-Type: application/json" -d '{"text": "my custom input text", "model": "openai/gpt-4o-mini"}'
+
+# curl -s -X POST "http://localhost:8005/generate_post" -H "Content-Type: application/json" -d '{"text": "my text"}'
 @app.post("/generate_post")
-def generate_text(request: GenerateRequest):
+def generate_post(request: GenerateRequest):
     return refine(request.prompt.format(request.text), request.model)
 
-# run with curl -s "http://localhost:8001/generate_get?text=${encoded_text}&model=openai/gpt-4o-mini"
+
+# curl -s "http://localhost:8005/generate_get?text=${encoded_text}"
 @app.get("/generate_get")
-def generate_text(text: str, model: str = "openai/gpt-4.1-nano", prompt: str = PROMPT):
+def generate_get(text: str, model: str = MODEL, prompt: str = PROMPT):
     return refine(prompt.format(text), model)
